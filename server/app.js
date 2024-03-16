@@ -47,8 +47,8 @@ app.post("/register", async (request, response) => {
       const hashedPassword = await bcrypt.hash(password, 10);
 
       const createUserQuery = `INSERT INTO 
-              user (username,name,age,password)
-              VALUES ('${username}','${name}', ${age}, '${hashedPassword}');`;
+              user (username,name,age,password,score)
+              VALUES ('${username}','${name}', ${age}, '${hashedPassword}', ${0});`;
       await db.run(createUserQuery);
 
       response.status(200);
@@ -117,4 +117,21 @@ app.get("/:user_name", authorizeUser, async (request, response) => {
   console.log(userData);
 
   response.send(userData);
+});
+
+//API to update score.
+app.put("/total_score", authorizeUser, async (request, response) => {
+  const { username } = request.user;
+  console.log(username);
+  const { score } = request.body;
+  const getScoreQuery = `SELECT score FROM user WHERE username = '${username}';`;
+  const userScore = await db.get(getScoreQuery);
+  console.log(score, userScore.score);
+
+  const newScore = userScore.score + score;
+
+  const updateScoreQuery = `UPDATE user SET score=${newScore} WHERE username='${username}';`;
+  await db.run(updateScoreQuery);
+
+  response.send("Score Updated");
 });

@@ -4,8 +4,8 @@ POST http://localhost:3000/register
 Content-Type: application/json
 
 {
-    "username":"ksd",
-    "name":"siva dinesh",
+    "username":"ksd_21",
+    "name":"siva dinesh .k",
     "age" : 23,
     "password":"siva@dinesh"
 }
@@ -26,5 +26,16 @@ Content-Type: application/json
 
 GET http://localhost:3000/ksd
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtzZCIsInBhc3N3b3JkIjoic2l2YUBkaW5lc2giLCJpYXQiOjE3MTA2MjQ1OTJ9.RyyPlpLfKy9GGhZCDZ-j96j90qTPWmlAhLtieQ9S2Qw
+
+###
+
+//API to update score
+PUT http://localhost:3000/total_score
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtzZCIsInBhc3N3b3JkIjoic2l2YUBkaW5lc2giLCJpYXQiOjE3MTA2MjQ1OTJ9.RyyPlpLfKy9GGhZCDZ-j96j90qTPWmlAhLtieQ9S2Qw
+Content-Type: application/json
+
+{
+    "score" : 2
+}
 
 ###
