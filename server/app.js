@@ -122,11 +122,10 @@ app.get("/:user_name", authorizeUser, async (request, response) => {
 //API to update score.
 app.put("/total_score", authorizeUser, async (request, response) => {
   const { username } = request.user;
-  console.log(username);
+
   const { score } = request.body;
   const getScoreQuery = `SELECT score FROM user WHERE username = '${username}';`;
   const userScore = await db.get(getScoreQuery);
-  console.log(score, userScore.score);
 
   const newScore = userScore.score + score;
 
