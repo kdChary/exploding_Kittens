@@ -1,0 +1,11 @@
+// API to register user.
+
+POST http://localhost:3000/register
+Content-Type: application/json
+
+{
+    "username":"ksd",
+    "name":"siva dinesh",
+    "age" : 23,
+    "password":"siva@dinesh"
+}

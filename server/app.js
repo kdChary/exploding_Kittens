@@ -32,3 +32,30 @@ const initializeDbAndServer = async () => {
 };
 
 initializeDbAndServer();
+
+// API for user registration..
+app.post("/register", async (request, response) => {
+  const { username, name, age, password } = request.body;
+  const findUserQuery = `SELECT username FROM user WHERE username = '${username}';`;
+  const existingUser = await db.get(findUserQuery);
+
+  if (existingUser !== undefined) {
+    response.status(400);
+    response.send("User already exists");
+  } else {
+    if (password.length > 5) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      const createUserQuery = `INSERT INTO 
+              user (username,name,age,password)
+              VALUES ('${username}','${name}', ${age}, '${hashedPassword}');`;
+      await db.run(createUserQuery);
+
+      response.status(200);
+      response.send("User registered");
+    } else {
+      response.status(400);
+      response.send("Password too short!");
+    }
+  }
+});
