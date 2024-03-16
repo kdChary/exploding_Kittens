@@ -59,3 +59,27 @@ app.post("/register", async (request, response) => {
     }
   }
 });
+
+//API for user Login ..
+app.post("/login", async (request, response) => {
+  const { username, password } = request.body;
+  const findUserQuery = `SELECT username,password FROM user WHERE username = '${username}';`;
+  const existingUser = await db.get(findUserQuery);
+
+  if (existingUser === undefined) {
+    response.status(400);
+    response.send("Invalid Username");
+  } else {
+    const isValidPassword = await bcrypt.compare(
+      password,
+      existingUser.password
+    );
+    if (isValidPassword) {
+      response.status(200);
+      response.send("Login successful");
+    } else {
+      response.status(400);
+      response.send("Username and Password did not match");
+    }
+  }
+});

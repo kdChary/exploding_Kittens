@@ -9,3 +9,13 @@ Content-Type: application/json
     "age" : 23,
     "password":"siva@dinesh"
 }
+###
+
+//API to Login authorized user..
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "username":"ksd",
+    "password":"siva@dinesh"
+}
