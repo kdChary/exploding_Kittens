@@ -20,3 +20,11 @@ Content-Type: application/json
     "username":"ksd",
     "password":"siva@dinesh"
 }
+###
+
+// API to get user data.
+
+GET http://localhost:3000/ksd
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtzZCIsInBhc3N3b3JkIjoic2l2YUBkaW5lc2giLCJpYXQiOjE3MTA2MjQ1OTJ9.RyyPlpLfKy9GGhZCDZ-j96j90qTPWmlAhLtieQ9S2Qw
+
+###

@@ -62,6 +62,8 @@ app.post("/register", async (request, response) => {
 
 //API for user Login ..
 app.post("/login", async (request, response) => {
+  const payload = request.body;
+
   const { username, password } = request.body;
   const findUserQuery = `SELECT username,password FROM user WHERE username = '${username}';`;
   const existingUser = await db.get(findUserQuery);
@@ -75,8 +77,8 @@ app.post("/login", async (request, response) => {
       existingUser.password
     );
     if (isValidPassword) {
-      response.status(200);
-      response.send("Login successful");
+      const jwtToken = jwt.sign(payload, "chary_A");
+      response.send({ jwtToken });
     } else {
       response.status(400);
       response.send("Username and Password did not match");
@@ -87,16 +89,15 @@ app.post("/login", async (request, response) => {
 /* Generating a middleware function to validate user */
 
 const authorizeUser = (request, response, next) => {
-  const authHeader = request.Headers["Authorization"];
-  const authToken = authHeader.split(" ")[1];
-  const secretKey = "chary_A";
+  const authHeader = request.headers["authorization"];
+  const jwtToken = authHeader.split(" ")[1];
 
-  if (authToken === undefined) {
+  if (jwtToken === undefined) {
     response.status(401);
     response.send("Invalid AuthToken");
   } else {
-    jwt.verify(authToken, secretKey, async (error, payload) => {
-      if (err) {
+    jwt.verify(jwtToken, "chary_A", async (error, payload) => {
+      if (error) {
         response.status(401);
         response.send("Invalid Authentication Token");
       } else {
@@ -108,3 +109,11 @@ const authorizeUser = (request, response, next) => {
 };
 
 //API to get user Data.
+app.get("/:user_name", authorizeUser, async (request, response) => {
+  const { username } = request.user;
+  console.log(username);
+  const getUserQuery = `SELECT * FROM user WHERE username = '${username}';`;
+  const userData = db.get(getUserQuery);
+
+  response.send(userData);
+});
