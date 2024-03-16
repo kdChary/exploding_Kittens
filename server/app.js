@@ -112,8 +112,9 @@ const authorizeUser = (request, response, next) => {
 app.get("/:user_name", authorizeUser, async (request, response) => {
   const { username } = request.user;
   console.log(username);
-  const getUserQuery = `SELECT * FROM user WHERE username = '${username}';`;
-  const userData = db.get(getUserQuery);
+  const getUserQuery = `SELECT username,name,age FROM user WHERE username = '${username}';`;
+  const userData = await db.get(getUserQuery);
+  console.log(userData);
 
   response.send(userData);
 });
