@@ -83,3 +83,26 @@ app.post("/login", async (request, response) => {
     }
   }
 });
+
+/* Generating a middleware function to validate user */
+
+const authorizeUser = (request, response, next) => {
+    const authHeader = request.Headers['Authorization'];
+    const authToken = authHeader.split(' ')[1];
+    const secretKey = "chary_A";
+
+    if(authToken === undefined){
+        response.status(401);
+        response.send("Invalid AuthToken");
+    }else{
+        jwt.verify(authToken, secretKey, async (error, payload)={
+            if(err){
+                response.status(401);
+                response.send("Invalid Authentication Token");
+            }else{
+                request.user = payload;
+                next();
+            }
+        });
+    }
+}
